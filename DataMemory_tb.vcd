@@ -1,0 +1,49 @@
+$date
+	Mon Jun  5 21:10:35 2023
+$end
+$version
+	Icarus Verilog
+$end
+$timescale
+	1s
+$end
+$scope module DataMemory_tb $end
+$var wire 32 ! read_data [31:0] $end
+$var reg 32 " address [31:0] $end
+$var reg 32 # write_data [31:0] $end
+$var reg 1 $ write_enable $end
+$scope module dut $end
+$var wire 32 % address [31:0] $end
+$var wire 32 & write_data [31:0] $end
+$var wire 1 $ write_enable $end
+$var reg 32 ' read_data [31:0] $end
+$upscope $end
+$upscope $end
+$enddefinitions $end
+#0
+$dumpvars
+bx '
+b1010010110100101 &
+b0 %
+1$
+b1010010110100101 #
+b0 "
+bx !
+$end
+#10
+b1010010110100101 !
+b1010010110100101 '
+0$
+#30
+bx !
+bx '
+1$
+b1001000110100 #
+b1001000110100 &
+b101 "
+b101 %
+#40
+b1001000110100 !
+b1001000110100 '
+0$
+#60
