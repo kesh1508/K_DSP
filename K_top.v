@@ -26,6 +26,8 @@ module TopModule (
   // Instantiate the decode logic
   K_DecodeLogic decode (
     .instruction(instruction),
+    .loader(read_data1),
+    .loader1(read_data2),
     .rs1(rs1),
     .rs2(rs2)
   );
@@ -44,9 +46,15 @@ module TopModule (
   K_ALU alu (
     .opA(rs1_data),
     .opB(rs2_data),
+    .enable(enable),
     .result(result)
   );
-
+  // Rdata mem
+ RdataMemory rmdata (
+       .enable(enable),
+       .read_data1(read_data1),
+       .read_data2(read_data2)
+  );     
   // Instantiate the data memory
   DataMemory data_mem (
     .address(result),
