@@ -8,7 +8,7 @@ module K_ProgramCounter (
 
   always @(posedge clk or posedge reset) begin
     if (reset)
-      pc_reg <= 32'b0;  // Reset the program counter to zero
+      pc_reg <= 32'h0;  // Reset the program counter to zero
     else
       pc_reg <= pc_reg + 1;  // Increment the program counter by 4 (for sequential execution)
   end

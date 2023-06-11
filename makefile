@@ -1,24 +1,35 @@
-# Verilog source files
-DESIGN_SRCS = pc.v imem.v decode_logic.v regfile.v alu.v dmem.v
-TB_SRCS = pc_tb.v imem_tb.v decode_logic_tb.v regfile_tb.v alu_tb.v dmem_tb.v
+# List of Verilog source files and their corresponding testbenches
+VERILOG_FILES := K_top.v alu.v pc.v decode_logic.v rdmem.v imem.v dmem.v regfile.v 
+TESTBENCH_FILES := K_top_tb.v alu_tb.v pc_tb.v decode_logic_tb.v rdmem_tb.v imem_tb.v dmem_tb.v regfile_tb.v 
 
-# Output file names
-TARGETS = pc.vvp imem.vvp decode_logic.vvp regfile.vvp alu.vvp dmem.vvp
+# Generate the list of compiled object files
+#OBJECT_FILES := $(patsubst %.v,%.o,$(VERILOG_FILES))
 
-# Compilation and simulation commands
-IVERILOG_CMD = iverilog
-VVP_CMD = vvp
+# Default target
+all: simulate
 
-all: $(TARGETS)
+# Simulation target
+simulate:
+	iverilog -o /home/keshave/riscv/sim/all_vvp/regfile.vvp regfile.v regfile_tb.v
+	vvp /home/keshave/riscv/sim/all_vvp/regfile.vvp
+	iverilog  alu.v alu_tb.v -o /home/keshave/riscv/sim/all_vvp/alu.vvp 
+	vvp /home/keshave/riscv/sim/all_vvp/alu.vvp
+	iverilog -o /home/keshave/riscv/sim/all_vvp/pc.vvp pc.v pc_tb.v 
+	vvp /home/keshave/riscv/sim/all_vvp/pc.vvp
+	iverilog -o /home/keshave/riscv/sim/all_vvp/decode_logic.vvp decode_logic.v decode_logic_tb.v
+	vvp /home/keshave/riscv/sim/all_vvp/decode_logic.vvp
+	iverilog -o /home/keshave/riscv/sim/all_vvp/rdmem.vvp rdmem.v rdmem_tb.v
+	vvp /home/keshave/riscv/sim/all_vvp/rdmem.vvp
+	iverilog -o /home/keshave/riscv/sim/all_vvp/imem.vvp imem.v imem_tb.v
+	vvp /home/keshave/riscv/sim/all_vvp/imem.vvp
+	iverilog -o /home/keshave/riscv/sim/all_vvp/dmem.vvp dmem.v dmem_tb.v
+	vvp /home/keshave/riscv/sim/all_vvp/dmem.vvp
+	
+# Rule to compile each Verilog source file into an object file
+#%.o: %.v
+#	iverilog -o $@ -c $<
 
-$(TARGETS): $(DESIGN_SRCS) $(TB_SRCS)
-    $(IVERILOG_CMD) -o $@ $^
-
-run: $(TARGETS)
-    $(VVP_CMD) $(TARGETS)
-
+# Clean target
 clean:
-	 rm -f $(TARGETS)
-
-.PHONY: all run clean
-
+	rm -f simulation $(OBJECT_FILES)
+#alu_tb.v  alu.v  decode_logic_tb.v  decode_logic.v  dmem_tb.v  dmem.v  imem_tb.v  imem.v  K_top.v  makefile  pc_tb.v  pc.v  rdmem.v  regfile_tb.v  regfile.v

@@ -1,25 +1,38 @@
-module RdataMemory (
-  input enable,
-  output reg [31:0] read_data1,
-  output reg [31:0] read_data2
+module K_rdataMemory (
+  input [31:0] write_data,
+  input write_enable,
+  input read_enable,
+  input mem_bank,
+  input read_address,
+  input clk,
+  output reg [31:0] data
 );
-  reg [31:0] memory [0:1023]; // Data memory with 1024 locations, each 32 bits wide
-  reg [9:0] address_counter = 0; // Counter to increment the memory address
+
+parameter MEMW_SIZE = 3200; // Define parameter for memW size
+parameter REG_SIZE = 32; // define parameter for pixes
+parameter NUM_BANKS = 24;
+parameter MEM_BIT = 2;
   
-  initial begin
-    memory[0] = 32'h2FBC4A9D;
-    memory[1] = 32'hA57ED613;
-    memory[2] = 32'h3; 
-    memory[3] = 32'h4; 
-  end
+  reg [REG_SIZE-1:0] memory[0:MEMW_SIZE-1][0:NUM_BANKS-1]; // Data memory with var locations, each 32 bits wide
+  reg [MEMW_SIZE-1:0] address = 0;
+  reg [MEM_BIT-1:0] mem_select = 0;
+  
+  always @(posedge clk) begin
+	  if (write_enable) begin
+      memory[address][mem_select] <= write_data; // Write data to the memory location specified by the address if write_enable is asserted
+      if (address == MEMW_SIZE-1) begin
+	    address <= 0; // Wrap around to the beginning of the memory
+            mem_select <= mem_select + 1; // move to next bank
+    end
+    else begin	     
+        address <= address + 1;
+    end
+  end 
+end  
 
-  initial begin
-  assign  read_data1 = memory[address_counter];
+  always @(posedge clk) begin
+	  if (read_enable) begin
+		  data <= memory[read_address][mem_bank];
+	  end 
   end
-
-  always @(enable) begin
-    address_counter <= address_counter + 1; // Increment the memory address on each enable signal
-    read_data2 <= memory[address_counter];
-  end
-endmodule
-
+  endmodule
