@@ -1,4 +1,4 @@
-module TopModule (
+module Kdsp (
   input clk,
   input reset
 );
@@ -39,23 +39,56 @@ module TopModule (
 
   // Instantiate the ALU
   K_ALU alu (
-    .opA(rs1_data),
-    .opB(rs2_data),
-    .enable(enable),
-    .result(result)
+    .opA(),
+    .opB(),
+    .enable(),
+    .write_enable(),
+    .selector(),
+    .result()
   );
   // Rdata mem
- RdataMemory rmdata (
-       .enable(enable),
-       .read_data1(read_data1),
-       .read_data2(read_data2)
-  );     
-  // Instantiate the data memory
-  DataMemory data_mem (
-    .write_data(result),
-    .write_enable(1'b0), // Assuming always not enabled for this example
-    .data(data)
+ K_rdataMemory rmdata (
+   .write_data()
+   .write_enable()
+   .read_enable(),
+   .read_address(),
+   .mem_bank(),
+   .clk(), 
+   .data()
+ );     
+  // Instantiate the Wdata mem
+  K_wdataMemory wmdata (
+    .write_data(),
+    .write_enable(), 
+    .read_address(),
+    .read_enable(),
+    .mem_bank(),
+    .clk(),
+    .data()
+    
   );
+  
+  // blue holder
+  K_value_b_Holder bholder (
+    .value()
+  );
+  
+  // green holder
+  K_value_g_Holder gholder (
+    .value()
+  );
+  // red holder
+  K_value_r_Holder rholder (
+    .value()
+  );
+  K_registerSelector rsel (
+    .rsin1(),
+    .rsin2(),
+    .rsin3(),
+    .select(),
+    .rsout()
+  );
+  
 
 endmodule
 
