@@ -88,6 +88,24 @@ module Kdsp (
     .select(),
     .rsout()
   );
+  fifoMem fmem (
+    .clk(),
+    .rst(),
+    .read_enable(),
+    .write_enable(),
+    .read_data(),
+    .data()
+  );
+  memFifo mfifo (
+    .clk(),
+    .rst(),
+    .read_enable(),
+    .write_enable(),
+    .read_data(),
+    .data()
+  );
+  
+    
   
 
 endmodule
