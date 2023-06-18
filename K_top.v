@@ -38,17 +38,17 @@ module Kdsp (
   );
 
   // Instantiate the ALU
-  K_ALU alu (
-    .opA(),
-    .opB(),
+  K_alu alu (
+    .opA(aluopA),
+    .opB(aluopB),
     .enable(),
     .write_enable(),
     .selector(),
-    .result()
+    .result(aluresult)
   );
   // Rdata mem
  K_rdataMemory rmdata (
-   .write_data()
+   .write_data(rwritedata)
    .write_enable()
    .read_enable(),
    .read_address(),
@@ -64,45 +64,45 @@ module Kdsp (
     .read_enable(),
     .mem_bank(),
     .clk(),
-    .data()
+    .data(wdata)
     
   );
   
   // blue holder
   K_value_b_Holder bholder (
-    .value()
+    .value(rsin1)
   );
   
   // green holder
   K_value_g_Holder gholder (
-    .value()
+    .value(rsin2)
   );
   // red holder
   K_value_r_Holder rholder (
-    .value()
+    .value(rsin3)
   );
   K_registerSelector rsel (
-    .rsin1(),
-    .rsin2(),
-    .rsin3(),
+    .rsin1(rsin1),
+    .rsin2(rsin2),
+    .rsin3(rsin3),
     .select(),
-    .rsout()
+    .rsout(aluopB)
   );
   fifoMem fmem (
     .clk(),
     .rst(),
     .read_enable(),
     .write_enable(),
-    .read_data(),
-    .data()
+    .read_data(aluresult),
+    .data(rwritedata)
   );
   memFifo mfifo (
     .clk(),
     .rst(),
     .read_enable(),
     .write_enable(),
-    .read_data(),
-    .data()
+    .read_data(wdata),
+    .data(aluopA)
   );
   
     

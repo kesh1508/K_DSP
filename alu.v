@@ -1,4 +1,4 @@
-module K_ALU (
+module K_alu (
   input [31:0] opA,
   input [31:0] opB,
   output [2:0] reg selector,
