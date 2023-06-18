@@ -7,6 +7,7 @@ module kernel_wmux (
   input [0:2] l_w,
   input [0:2] t_w,
   input [0:2] b_w,
+  input [0:2] c_w,
   input [0:3] select,
   output reg [0:3] k_w
 );
@@ -21,6 +22,7 @@ module kernel_wmux (
       4'b0110: k_w = l_w;
       4'b0111: k_w = t_w;
       4'b1000: k_w = b_w;
+      4'b1111: k_w = c_w;
       default: k_w = 4'b0; // Default output when select is out of range
     endcase
   end

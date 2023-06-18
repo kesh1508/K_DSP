@@ -7,6 +7,7 @@ module kernel_dmux (
   input [0:2] l_d,
   input [0:2] t_d,
   input [0:2] b_d,
+  input [0:2] c_d,
   input [0:3] select,
   output reg [0:3] k_d
 );
@@ -21,6 +22,7 @@ module kernel_dmux (
       4'b0110: k_d = l_d;
       4'b0111: k_d = t_d;
       4'b1000: k_d = b_d;
+      4'b1111: k_d = c_d;
       default: k_d = 4'b0; // Default output when select is out of range
     endcase
   end
